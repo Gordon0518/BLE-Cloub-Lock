@@ -5,7 +5,6 @@ from bleak import BleakClient, BleakError
 import time
 from datetime import datetime
 
-
 import record
 import encrypt
 import urllib.parse
@@ -45,7 +44,7 @@ class Lock:
         self.rolling_code = rolling_code
 
 
-    ####Connect 
+    ####Connect
     async def connect(self):
         try:
             self.client = BleakClient(self.ble_address)
@@ -58,7 +57,8 @@ class Lock:
             return True
         except BleakError as e:
             print(f"BLE Connection Error: {e}")
-            return False
+            return
+
         
     ####Handle Response
     def _notification_handler(self, sender, data):
@@ -216,7 +216,7 @@ class Lock:
 
     #### 0x1f (Reset) reset key to default
     async def reset(self):
-        instruction_code = "14"
+        instruction_code = "1f"
         mac = self.ble_address.replace(":", "")
         params = "02"
         now = datetime.now()
@@ -293,14 +293,14 @@ class Lock:
        
 ###Test
 async def main():
-    lock = Lock(ble_address="C1:01:01:01:76:08", key="123456789abcef0123456789abcddeef")
+    lock = Lock(ble_address="C1:01:01:01:76:08", key="11223344112233441122334411223344")
     await lock.connect()
 
     await lock.reset()
     await lock.disconnect()
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# if __name__ == "__main__":
+#     asyncio.run(main())
 
 #!!!!!!!Default KEY: 123456789abcef0123456789abcddeef
 #!!!!!!!Test KEY: 11223344112233441122334411223344

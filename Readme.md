@@ -20,9 +20,6 @@
      -Encryption.py: Class for encryt the command before sending to the device
      -Record.py : Handle the 0x02 command when device responses the record 
 
-        
-    
-    
 ##Guide to Use key Function
     
     -All command sent to device require encryption except command 0x01 (initialize)
